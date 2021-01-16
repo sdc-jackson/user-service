@@ -1,9 +1,9 @@
 import React from 'react';
 
-const MorePlacesSection = () => {
+const HostSection = () => {
   return (
     <div>Loaded</div>
   );
 };
 
-export default MorePlacesSection;
+export default HostSection;
