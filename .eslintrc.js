@@ -6,6 +6,5 @@
  */
 
 module.exports = {
-  extends: './node_modules/eslint-config-hackreactor/index.js',
-  ecmaVersion: 8
+  extends: './node_modules/eslint-config-hackreactor/index.js'
 };
