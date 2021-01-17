@@ -17,12 +17,14 @@ const uploadPhotoToS3 = async (photo) => {
     Key: `${Date.now()}.jpg`,
   }
 
-  S3.upload(uploadParams, (err, data) => {
-    if (err) {
-      console.error(err)
-    } else {
-      console.log(data)
-    }
+  return new Promise((resolve, reject) => {
+    S3.upload(uploadParams, (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data.Location)
+      }
+    })
   })
 };
 
