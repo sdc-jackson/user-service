@@ -50,10 +50,8 @@ const createUser = async (id) => {
       responseRate: faker.random.number({ min: 93, max: 100 }),
       responseTime: faker.random.number({ min: 10, max: 600 })
     })
-    const saveData = await user.save((err, data) => {
-      if (err) { return console.error(err) }
-      return data;
-    })
+    const saveData = await user.save()
+    return saveData
   } catch(err) {
     console.error(err)
   }
