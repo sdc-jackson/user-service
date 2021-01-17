@@ -1,12 +1,26 @@
 require('dotenv').config();
 const axios = require('axios');
-const AWS = require('./aws.js')
+const faker = require('faker');
+const AWS = require('./aws.js');
 
-const generatePhoto = async () => {
-  const photo = await axios({
-    url: 'https://picsum.photos/50',
-    method: 'GET',
-    responseType: 'stream'
-  });
-  return photo;
-};
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .catch(err => console.error(err));
+
+const userSchema = new mongoose.Schema({
+  userId: Number,
+  name: String,
+  joinDate: String,
+  bio: String,
+  avatarUrl: String,
+  isSuperhost: Boolean,
+  identityVerified: Boolean,
+  languages: Array,
+  responseRate: Number,
+  responseTime: Number
+});
+
+const User = mongoose.model('User', userSchema);
