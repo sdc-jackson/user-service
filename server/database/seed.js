@@ -1,23 +1,10 @@
 require('dotenv').config();
-const axios = require('axios');
+const { generatePhoto } = require('./helpers');
 const faker = require('faker');
 const AWS = require('./aws.js');
 const { mongoose, User } = require('./schema.js');
 
 const languages = ['English', 'Spanish', 'French', 'Portuguese', 'German', 'Italian', 'Cambodian', 'Thai', 'Shyriiwook'];
-
-const generatePhoto = async () => {
-  try {
-    const photo = await axios({
-      url: 'https://picsum.photos/75',
-      method: 'GET',
-      responseType: 'stream'
-    });
-    return photo;
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 const seedUser = async (id) => {
   try {
