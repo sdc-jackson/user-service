@@ -8,26 +8,26 @@ const S3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-const uploadPhotoToS3 = async (photo) => {
+const uploadPhotoToS3 = (photo) => {
   const uploadParams = {
     ACL: 'public-read',
     Body: photo.data,
     Bucket: process.env.AWS_BUCKET_KEY,
     ContentType: 'image/jpeg',
     Key: `${Date.now()}.jpg`,
-  }
+  };
 
   return new Promise((resolve, reject) => {
     S3.upload(uploadParams, (err, data) => {
       if (err) {
-        reject(err)
+        reject(err);
       } else {
-        resolve(data.Location)
+        resolve(data.Location);
       }
-    })
-  })
+    });
+  });
 };
 
 module.exports = {
   uploadPhotoToS3
-}
+};
