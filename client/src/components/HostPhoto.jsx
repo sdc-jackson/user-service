@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const HostPhoto = ({ img }) => {
   return (
@@ -7,6 +8,10 @@ const HostPhoto = ({ img }) => {
       <img src={img} />
     </div>
   );
+};
+
+HostPhoto.propTypes = {
+  img: PropTypes.string.isRequired,
 };
 
 export default HostPhoto;

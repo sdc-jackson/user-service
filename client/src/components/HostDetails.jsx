@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const monthTable = {
   Jan: 'January',
@@ -28,3 +29,8 @@ const HostDetails = ({ name, date }) => {
 };
 
 export default HostDetails;
+
+HostDetails.propTypes = {
+  name: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+};
