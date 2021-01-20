@@ -7,15 +7,12 @@ describe('HostPhoto', () => {
 
   test('renders an image', () => {
 
-    // Arrange
     const props = {
       img: 'http://placekitten.com/75/75'
     };
 
-    // Act
     const { getByRole } = render(<HostPhoto {...props} />);
 
-    // Assert
     const imgNode = getByRole('img');
     expect(imgNode).toBeDefined();
 
