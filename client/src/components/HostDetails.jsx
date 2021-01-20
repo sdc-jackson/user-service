@@ -1,19 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HostDetails = ({ name, date }) => {
-  const month = monthTable[date.split(' ')[1]];
-  const year = date.split(' ')[3];
-  return (
-    <div>
-      <p>Hosted by { name }</p>
-      <p>Joined in {`${month} ${year}`}</p>
-    </div>
-  );
-};
-
-export default HostDetails;
-
 const monthTable = {
   Jan: 'January',
   Feb: 'February',
@@ -28,3 +15,16 @@ const monthTable = {
   Nov: 'November',
   Dec: 'December',
 };
+
+const HostDetails = ({ name, date }) => {
+  const month = monthTable[date.split(' ')[1]];
+  const year = date.split(' ')[3];
+  return (
+    <div>
+      <p>Hosted by { name }</p>
+      <p>Joined in {`${month} ${year}`}</p>
+    </div>
+  );
+};
+
+export default HostDetails;
