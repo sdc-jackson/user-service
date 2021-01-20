@@ -12,7 +12,7 @@ describe('Root route', () => {
 
   it('should send HTML in response', async (done) => {
     const res = await request.get('/');
-    expect(res.type).toBe('text/html')
+    expect(res.type).toBe('text/html');
     done();
   });
 

@@ -7,5 +7,7 @@
 
 module.exports = {
   extends: './node_modules/eslint-config-hackreactor/index.js',
-  ecmaVersion: 8
+  parserOptions: {
+    ecmaVersion: 8,
+  }
 };
