@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MorePlacesSection from './components/MorePlacesSection';
+import HostSection from './components/HostSection';
 
-ReactDOM.render(<MorePlacesSection />, document.getElementById('root'));
+ReactDOM.render(<HostSection />, document.getElementById('root'));
