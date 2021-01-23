@@ -25,8 +25,17 @@ const getUserById = async (userId) => {
 
 const getUserNameAndPhoto = async (userId) => {
   try {
-    const userNameAndPhoto = await User.findOne({ userId }, 'name avatarUrl');
-    console.log(userNameAndPhoto);
+    const { name, avatarUrl } = await User.findOne({ userId }, 'name avatarUrl');
+    return { name, avatarUrl };
+  } catch (err) {
+    return new Error({ message: err });
+  }
+};
+
+const getUserSuperhostStatus = async (userId) => {
+  try {
+    const { isSuperhost } = await User.findOne({ userId }, 'isSuperhost');
+    return { isSuperhost };
   } catch (err) {
     return new Error({ message: err });
   }
@@ -34,5 +43,7 @@ const getUserNameAndPhoto = async (userId) => {
 
 module.exports = {
   generatePhoto,
-  getUserById
+  getUserById,
+  getUserNameAndPhoto,
+  getUserSuperhostStatus
 };
