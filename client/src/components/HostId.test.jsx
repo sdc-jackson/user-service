@@ -1,8 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { toBeInTheDocument } from '@testing-library/jest-dom';
 import HostId from './HostId';
 
-describe('HostDetails', () => {
+jest.mock('./HostDetails', () => () => <div data-testid='host-details'></div>);
+jest.mock('./HostPhoto', () => () => <div data-testid='host-photo'></div>);
+
+describe('HostId', () => {
 
   const props = {
     host: {
@@ -12,27 +16,13 @@ describe('HostDetails', () => {
     }
   };
 
-  test('should render host name', () => {
+  test('should render expected child components', () => {
 
-    const { getByRole } = render(<HostId {...props} />);
-    const imgNode = getByRole('img');
-    expect(imgNode).toBeDefined();
-
-  });
-
-  test('should render host name', () => {
-
-    const { getByText } = render(<HostId {...props} />);
-    const nameNode = getByText('Hosted by Travis');
-    expect(nameNode).toBeDefined();
-
-  });
-
-  test('should render host join date', () => {
-
-    const { getByText } = render(<HostId {...props} />);
-    const dateNode = getByText('Joined in August 2020');
-    expect(dateNode).toBeDefined();
+    const { getByTestId } = render(<HostId {...props} />);
+    const hostDetails = screen.getByTestId('host-details');
+    const hostPhoto = screen.getByTestId('host-details');
+    expect(hostDetails).toBeInTheDocument();
+    expect(hostPhoto).toBeInTheDocument();
 
   });
 
