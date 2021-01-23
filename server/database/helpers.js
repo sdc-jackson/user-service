@@ -19,7 +19,7 @@ const getUserById = async (userId) => {
     const user = await User.findOne({ userId });
     return user;
   } catch (err) {
-    return new Error({ message: err });
+    return null;
   }
 };
 
@@ -28,7 +28,7 @@ const getUserNameAndPhoto = async (userId) => {
     const { name, avatarUrl } = await User.findOne({ userId }, 'name avatarUrl');
     return { name, avatarUrl };
   } catch (err) {
-    return new Error({ message: err });
+    return null;
   }
 };
 
@@ -37,7 +37,7 @@ const getUserSuperhostStatus = async (userId) => {
     const { isSuperhost } = await User.findOne({ userId }, 'isSuperhost');
     return { isSuperhost };
   } catch (err) {
-    return new Error({ message: err });
+    return null;
   }
 };
 
