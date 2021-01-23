@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { mongoose, User } = require('./schema.js');
 
 const generatePhoto = async () => {
   try {
@@ -13,6 +14,16 @@ const generatePhoto = async () => {
   }
 };
 
+const getUserById = async (userId) => {
+  try {
+    const user = await User.find({ userId });
+    return user;
+  } catch (err) {
+    return new Error({ message: err });
+  }
+};
+
 module.exports = {
-  generatePhoto
+  generatePhoto,
+  getUserById
 };
