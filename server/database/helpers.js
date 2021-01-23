@@ -16,8 +16,17 @@ const generatePhoto = async () => {
 
 const getUserById = async (userId) => {
   try {
-    const user = await User.find({ userId });
+    const user = await User.findOne({ userId });
     return user;
+  } catch (err) {
+    return new Error({ message: err });
+  }
+};
+
+const getUserNameAndPhoto = async (userId) => {
+  try {
+    const userNameAndPhoto = await User.findOne({ userId }, 'name avatarUrl');
+    console.log(userNameAndPhoto);
   } catch (err) {
     return new Error({ message: err });
   }
