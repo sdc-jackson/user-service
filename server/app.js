@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 app.get('/users/:userId', async (req, res) => {
   try {
     const user = await getUserById(req.params.userId);
-    res.status(200).send(user);
+    user ? res.status(200).send(user) : res.sendStatus(404);
   } catch (err) {
     res.status(500).send({ message: 'Server Error' });
   }
@@ -20,7 +20,7 @@ app.get('/users/:userId', async (req, res) => {
 app.get('/users/:userId/id', async (req, res) => {
   try {
     const id = await getUserNameAndPhoto(req.params.userId);
-    res.status(200).send(id);
+    id ? res.status(200).send(id) : res.sendStatus(404);
   } catch (err) {
     res.status(500).send({ message: 'Server Error' });
   }
@@ -29,7 +29,7 @@ app.get('/users/:userId/id', async (req, res) => {
 app.get('/users/:userId/super', async (req, res) => {
   try {
     const status = await getUserSuperhostStatus(req.params.userId);
-    res.status(200).send(status);
+    status ? res.status(200).send(status) : res.sendStatus(404);
   } catch (err) {
     res.status(500).send({ message: 'Server Error' });
   }
