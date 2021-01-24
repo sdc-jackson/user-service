@@ -2,6 +2,15 @@ const app = require('./app.js');
 const supertest = require('supertest');
 const request = supertest(app);
 
+jest.mock('./database/helpers.js');
+const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus } = require('./database/helpers.js');
+
+getUserById.mockImplementation((id) => id >= 100 && id <= 199 ? { _id: 101 } : null);
+getUserNameAndPhoto.mockImplementation((id) => id >= 100 && id <= 199 ? { name: 'Tom' } : null);
+getUserSuperhostStatus.mockImplementation((id) => id >= 100 && id <= 199 ? { isSuperhost: false } : null);
+
+beforeAll(() => process.env.NODE_ENV = 'test');
+
 describe('/users/:userId', () => {
 
   test('returns user information for a given user id', async (done) => {
@@ -22,7 +31,7 @@ describe('/users/:userId/id', () => {
 
   test('returns username and avatar url for a given user id', async (done) => {
     const response = await request.get('/users/101/id');
-    expect(response.body).toBeDefined();
+    expect(response.body.name).toBeDefined();
     done();
   });
 
@@ -38,7 +47,7 @@ describe('/users/:userId/super', () => {
 
   test('returns superhost status of a user given a user id', async (done) => {
     const response = await request.get('/users/101/super');
-    expect(response.body).toBeDefined();
+    expect(response.body.isSuperhost).toBeDefined();
     done();
   });
 

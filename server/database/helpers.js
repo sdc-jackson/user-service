@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { mongoose, User } = require('./schema.js');
+if (process.env.NODE_ENV !== 'test') { const { mongoose, User } = require('./schema.js'); }
 
 const generatePhoto = async () => {
   try {
