@@ -4,10 +4,6 @@ const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus } = require('./
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile('index.html');
-});
-
 app.get('/users/:userId', async (req, res) => {
   try {
     const user = await getUserById(req.params.userId);
