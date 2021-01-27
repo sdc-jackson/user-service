@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { query } from '../utils';
 
 const HostStatsContainer = styled.div`
@@ -22,11 +23,17 @@ const StatText = styled.p`
 const HostStats = ({ isSuperhost, isVerified, reviews }) => {
   return (
     <HostStatsContainer>
-      <StatText>⭐️ {reviews} Reviews</StatText>
+      {reviews && <StatText>⭐️ {reviews} Reviews</StatText>}
       {isVerified && <StatText>🛡 Identity verified</StatText>}
       {isSuperhost && <StatText>🎖 Superhost</StatText>}
     </HostStatsContainer>
   );
+};
+
+HostStats.propTypes = {
+  isSuperhost: PropTypes.boolean,
+  isVerified: PropTypes.boolean,
+  reviews: PropTypes.number
 };
 
 export default HostStats;
