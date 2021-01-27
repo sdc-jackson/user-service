@@ -3,6 +3,7 @@ import HostId from './HostId';
 import HostStats from './HostStats';
 import HostDescription from './HostDescription';
 import HostCommunications from './HostCommunications';
+import Security from './Security';
 import styled from 'styled-components';
 import { data } from '../../../testdata';
 import { query } from '../utils';
@@ -40,6 +41,7 @@ const HostSection = () => {
         responseRate={host.responseRate}
         responseTime={host.responseTime}
       />
+      <Security />
     </HostSectionContainer>
   );
 };
