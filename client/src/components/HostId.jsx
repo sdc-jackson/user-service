@@ -9,13 +9,11 @@ const HostIdContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 24px;
   @media (min-width: ${query.medium}) {
     align-items: center;
     flex-direction: row-reverse;
     justify-content: flex-end;
-  }
-  @media (min-width: ${query.large}) {
-
   }
 `;
 
