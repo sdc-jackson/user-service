@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   identityVerified: Boolean,
   languages: Array,
   responseRate: Number,
-  responseTime: Number
+  responseTime: String
 });
 
 const User = mongoose.model('User', userSchema);

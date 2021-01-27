@@ -10,7 +10,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack -w",
-    "test": "jest"
+    "test": "jest",
+    "seed": "node server/database/seed.js"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.1.0",

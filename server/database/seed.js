@@ -20,7 +20,7 @@ const seedUser = async (id) => {
       identityVerified: faker.random.boolean(),
       languages: faker.random.arrayElements(languages, faker.random.number({ min: 0, max: 3 })),
       responseRate: faker.random.number({ min: 93, max: 100 }),
-      responseTime: faker.random.number({ min: 10, max: 600 })
+      responseTime: 'within an hour'
     });
     const saveData = await user.save();
     return saveData;
