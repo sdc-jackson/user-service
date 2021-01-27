@@ -31,8 +31,8 @@ const HostStats = ({ isSuperhost, isVerified, reviews }) => {
 };
 
 HostStats.propTypes = {
-  isSuperhost: PropTypes.boolean,
-  isVerified: PropTypes.boolean,
+  isSuperhost: PropTypes.bool,
+  isVerified: PropTypes.bool,
   reviews: PropTypes.number
 };
 
