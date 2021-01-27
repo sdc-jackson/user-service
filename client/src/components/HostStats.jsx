@@ -16,6 +16,7 @@ const HostStatsContainer = styled.div`
 
 const StatText = styled.p`
   font-size: 1.6rem;
+  font-weight: 500
   margin: 0 0 16px 0;
   padding: 0 12px;
 `;
@@ -31,8 +32,8 @@ const HostStats = ({ isSuperhost, isVerified, reviews }) => {
 };
 
 HostStats.propTypes = {
-  isSuperhost: PropTypes.boolean,
-  isVerified: PropTypes.boolean,
+  isSuperhost: PropTypes.bool,
+  isVerified: PropTypes.bool,
   reviews: PropTypes.number
 };
 

@@ -6,6 +6,7 @@ import { colors, months, query } from '../utils';
 const HostName = styled.h2`
   color: ${colors.mineshaft};
   font-size: 2.2rem;
+  font-weight: 400;
   margin: 0;
 `;
 
