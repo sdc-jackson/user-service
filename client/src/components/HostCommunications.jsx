@@ -33,8 +33,8 @@ const HostCommunications = ({ languages = [], responseRate, responseTime }) => {
   return (
     <HostCommunicationsContainer>
       {hostLanguages && <p>{ hostLanguages }</p>}
-      <p>Response Rate: { responseRate }%</p>
-      <p>Response Time: { responseTime }</p>
+      <p>Response rate: { responseRate }%</p>
+      <p>Response time: { responseTime }</p>
       <Button text='Contact host' link='#'/>
     </HostCommunicationsContainer>
   );
