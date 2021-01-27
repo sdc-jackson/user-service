@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HostId from './HostId';
+import HostStats from './HostStats';
 import styled from 'styled-components';
 import { data } from '../../../testdata';
 import { query } from '../utils';
@@ -20,6 +21,12 @@ const HostSection = () => {
   return (
     <HostSectionContainer>
       <HostId host={host} />
+      <HostStats
+        isSuperhost={true || host.isSuperhost}
+        isVerified={host.identityVerified}
+        reviews={17} // Needs data from another service
+      />
+
     </HostSectionContainer>
   );
 };
