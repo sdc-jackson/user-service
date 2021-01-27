@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 const { S3, uploadPhotoToS3 } = require('./aws.js');
 const { generatePhoto } = require('./helpers.js');
 const axios = require('axios');

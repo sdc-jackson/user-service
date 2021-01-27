@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 const { generatePhoto } = require('./helpers.js');
 
 describe('generatePhoto', () => {

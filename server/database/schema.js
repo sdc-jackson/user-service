@@ -1,11 +1,13 @@
 require('dotenv').config();
-
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .catch(err => console.error(err));
+
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+    .catch(err => console.error(err));
+}
 
 const userSchema = new mongoose.Schema({
   userId: Number,

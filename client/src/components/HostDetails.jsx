@@ -1,29 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { colors, months, query } from '../utils';
 
-const monthTable = {
-  Jan: 'January',
-  Feb: 'February',
-  Mar: 'March',
-  Apr: 'April',
-  May: 'May',
-  Jun: 'June',
-  Jul: 'July',
-  Aug: 'August',
-  Sep: 'September',
-  Oct: 'October',
-  Nov: 'November',
-  Dec: 'December',
-};
+const HostName = styled.h2`
+  color: ${colors.mineshaft};
+  font-size: 2.2rem;
+  margin: 0;
+`;
+
+const JoinedText = styled.div`
+  color: ${colors.dovegray};
+  font-size: 1.4rem;
+  padding-top: 8px;
+`;
 
 const HostDetails = ({ name, date }) => {
-  const month = monthTable[date.split(' ')[1]];
+  const month = months[date.split(' ')[1]];
   const year = date.split(' ')[3];
   return (
     <div>
-      <p>Hosted by { name }</p>
-      <p>Joined in {`${month} ${year}`}</p>
+      <HostName>Hosted by { name }</HostName>
+      <JoinedText>Joined in {`${month} ${year}`}</JoinedText>
     </div>
   );
 };

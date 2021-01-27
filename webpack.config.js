@@ -15,10 +15,18 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
+      {
+        test: /\.(css)/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+        loader: 'file-loader'
+      },
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.css'],
   },
   plugins: [
     new HtmlWebpackPlugin({
