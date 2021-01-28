@@ -9,8 +9,8 @@ const SecurityContainer = styled.div`
   justify-content: space-between;
   margin: 24px 0 0 0;
   p {
-    color: ${colors.mineshaft}
-    font-size: 12px;
+    color: ${colors.mineshaft};
+    font-size: 1.2rem;
     font-weight: 300;
     line-height: 16px;
   }
