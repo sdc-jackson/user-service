@@ -1,5 +1,5 @@
 const axios = require('axios');
-if (process.env.NODE_ENV !== 'test') { const { mongoose, User } = require('./schema.js'); }
+const { User } = require('./schema.js');
 
 const generatePhoto = async () => {
   try {
@@ -19,6 +19,7 @@ const getUserById = async (userId) => {
     const user = await User.findOne({ userId });
     return user;
   } catch (err) {
+    console.error(err);
     return null;
   }
 };

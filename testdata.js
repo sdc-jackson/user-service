@@ -1,24 +1,17 @@
 export const data = {
-  '_id': {
-    '$oid': '60079bdc5e6046463c1d54b6'
-  },
-  'languages': ['Cambodian', 'Thai'],
-  'userId': {
-    '$numberInt': '106'
-  },
-  'name': 'Ursula',
-  'joinDate': 'Fri Aug 14 2020 21:23:21 GMT-0700 (Pacific Daylight Time)',
-  'bio': 'Quis voluptatum quis id dolorem illo nobis illum cumque qui. Natus autem officia. Aut blanditiis nisi aut aspernatur. In et voluptas sint.',
-  'avatarUrl': 'https://fec-gnocchi-user-profile.s3.us-west-2.amazonaws.com/1611026757110.jpg',
-  'isSuperhost': false,
+  'languages': [
+    'German',
+    'Cambodian'
+  ],
+  '_id': '6011ac9ccc12956e8f8ef6a4',
+  'userId': 106,
+  'name': 'Orlando',
+  'joinDate': 'Wed Dec 09 2020 20:27:48 GMT-0800 (Pacific Standard Time)',
+  'bio': 'Voluptatibus quis eos ab id nulla sunt dolor vero. Aut provident nisi repudiandae ipsa aut magni. Qui accusamus porro totam amet corrupti. Cupiditate fuga tempore laboriosam labore earum.',
+  'avatarUrl': 'https://fec-gnocchi-user-profile.s3.us-west-2.amazonaws.com/1611771036329.jpg',
+  'isSuperhost': true,
   'identityVerified': true,
-  'responseRate': {
-    '$numberInt': '100'
-  },
-  'responseTime': {
-    '$numberInt': '117'
-  },
-  '__v': {
-    '$numberInt': '0'
-  }
+  'responseRate': 98,
+  'responseTime': 'within an hour',
+  '__v': 0
 };
