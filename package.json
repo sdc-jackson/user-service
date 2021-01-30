@@ -14,10 +14,12 @@
     "seed": "node server/database/seed.js"
   },
   "dependencies": {
+    "@babel/runtime": "^7.12.5",
     "@fontsource/roboto": "^4.1.0",
     "aws-sdk": "^2.828.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mongoose": "^5.11.12",
