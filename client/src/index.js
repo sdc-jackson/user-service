@@ -7,4 +7,4 @@ import './normalize.css';
 import './styles.css';
 import HostSection from './components/HostSection';
 
-ReactDOM.render(<HostSection />, document.getElementById('root'));
+ReactDOM.render(<HostSection />, document.getElementById('users'));
