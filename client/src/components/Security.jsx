@@ -13,6 +13,7 @@ const SecurityContainer = styled.div`
     font-size: 1.2rem;
     font-weight: 300;
     line-height: 16px;
+    margin: 0;
   }
   @media (min-width: ${query.medium}) {
     flex-direction: row-reverse;
