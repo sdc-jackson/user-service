@@ -19,6 +19,23 @@ const HostSectionContainer = styled.section`
   }
 `;
 
+const TwoColumn = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  @media (min-width: ${query.medium}) {
+    .col-one {
+      width: 42%;
+    }
+    .col-two {
+      width: 42%;
+      margin-left: 8%;
+    }
+  }
+`;
+
 const defaultState = {
   'languages': [],
   '_id': '',
@@ -38,7 +55,6 @@ const HostSection = () => {
   const [ host, setHost ] = useState(defaultState);
 
   useEffect(() => {
-
     const fetchHostData = async (id) => {
       const res = await axios.get(`/users/${id}`);
       setHost(res.data);
@@ -49,24 +65,30 @@ const HostSection = () => {
   return (
     <HostSectionContainer>
       <HostId host={host} />
-      <HostStats
-        isSuperhost={host.isSuperhost}
-        isVerified={host.identityVerified}
-        reviews={17} // Needs data from another service
-      />
-      <HostDescription
-        bio={host.bio}
-        cohosts={[{name: host.name, avatarUrl: host.avatarUrl }]}
-        duringYourStay={`My interaction with guests will be minimal. Although I may bump into you occasionally, we'll give you as much privacy as we can. Since I live in another house on the property, I'm always around if you need anything. Texting is best, but you can call or knock on my door if it's urgent.`} // Needs data from another service
-        isSuperhost={host.isSuperhost}
-        name={host.name}
-      />
-      <HostCommunications
-        languages={host.languages}
-        responseRate={host.responseRate}
-        responseTime={host.responseTime}
-      />
-      <Security />
+      <TwoColumn>
+        <div className='col-one'>
+          <HostStats
+            isSuperhost={host.isSuperhost}
+            isVerified={host.identityVerified}
+            reviews={17} // Needs data from another service
+          />
+          <HostDescription
+            bio={host.bio}
+            cohosts={[{name: host.name, avatarUrl: host.avatarUrl }]}
+            duringYourStay={`My interaction with guests will be minimal. Although I may bump into you occasionally, we'll give you as much privacy as we can. Since I live in another house on the property, I'm always around if you need anything. Texting is best, but you can call or knock on my door if it's urgent.`} // Needs data from another service
+            isSuperhost={host.isSuperhost}
+            name={host.name}
+          />
+        </div>
+        <div className='col-two'>
+          <HostCommunications
+            languages={host.languages}
+            responseRate={host.responseRate}
+            responseTime={host.responseTime}
+          />
+          <Security />
+        </div>
+      </TwoColumn>
     </HostSectionContainer>
   );
 };
