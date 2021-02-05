@@ -6,7 +6,7 @@ import { query } from '../utils';
 
 const HostDescriptionContainer = styled.div`
   .section-header {
-    font-size: 1.6rem;
+    font-size: 16px;
     margin: 0 0 8px 0;
   }
 `;
@@ -14,7 +14,7 @@ const HostDescriptionContainer = styled.div`
 const HostDescriptionSection = styled.div`
   margin-bottom: 24px;
   p {
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: 300;
     line-height: 24px;
     margin: 0;

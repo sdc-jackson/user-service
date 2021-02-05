@@ -7,7 +7,7 @@ import { query } from '../utils';
 const CohostListContainer = styled.div`
   display: none;
   .section-header {
-    font-size: 1.6rem;
+    font-size: 16px;
     margin: 0 0 8px 0;
   }
   @media (min-width: ${query.large}) {

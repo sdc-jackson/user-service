@@ -5,14 +5,14 @@ import { colors, months, query } from '../utils';
 
 const HostName = styled.h2`
   color: ${colors.mineshaft};
-  font-size: 2.2rem;
+  font-size: 22px;
   font-weight: 400;
   margin: 0;
 `;
 
 const JoinedText = styled.div`
   color: ${colors.dovegray};
-  font-size: 1.4rem;
+  font-size: 14px;
   padding-top: 8px;
 `;
 

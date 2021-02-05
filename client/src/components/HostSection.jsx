@@ -9,8 +9,9 @@ import axios from 'axios';
 import { query } from '../utils';
 
 const HostSectionContainer = styled.section`
-  width: 0 auto;
+  font-family: "Roboto";
   padding: 32px 24px;
+  width: 100%;
   @media (min-width: ${query.medium}) {
     padding: 48px 40px;
   }
