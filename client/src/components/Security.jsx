@@ -10,7 +10,7 @@ const SecurityContainer = styled.div`
   margin: 24px 0 0 0;
   p {
     color: ${colors.mineshaft};
-    font-size: 1.2rem;
+    font-size: 12px;
     font-weight: 300;
     line-height: 16px;
     margin: 0;

@@ -9,7 +9,7 @@ const CohostPhoto = styled.img`
 `;
 
 const CohostName = styled.p`
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: 300;
   margin: 0 0 0 12px;
 `;
