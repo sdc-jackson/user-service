@@ -26,6 +26,13 @@ module.exports = {
       },
     ]
   },
+  // externals: {
+  //   'styled-components': {
+  //     commonjs: 'styled-components',
+  //     commonjs2: 'styled-components',
+  //     amd: 'styled-components',
+  //   },
+  // },
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
   },

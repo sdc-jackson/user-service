@@ -9,13 +9,13 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "build": "webpack -w",
+    "build": "NODE_ENV=production webpack",
+    "client-dev": "NODE_ENV=development webpack -w",
     "test": "jest",
     "seed": "node server/database/seed.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@fontsource/roboto": "^4.1.0",
     "aws-sdk": "^2.828.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
