@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+const { styled } = window;
 import Button from './Button';
 import PropTypes from 'prop-types';
 

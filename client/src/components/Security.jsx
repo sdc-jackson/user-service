@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+const { styled } = window;
 import { colors, query } from '../utils';
 
 const SecurityContainer = styled.div`
