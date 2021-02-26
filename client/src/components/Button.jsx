@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+const { styled } = window;
 import PropTypes from 'prop-types';
 import { colors, query } from '../utils';
 

@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'test') {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+    .then(() => console.log('connected to fec'))
     .catch(err => console.error(err));
 }
 

@@ -4,7 +4,7 @@ import HostStats from './HostStats';
 import HostDescription from './HostDescription';
 import HostCommunications from './HostCommunications';
 import Security from './Security';
-import styled from 'styled-components';
+const { styled } = window;
 import axios from 'axios';
 import { query } from '../utils';
 
