@@ -9,7 +9,7 @@ const axios = require('axios');
 describe('S3 bucket', () => {
 
   it('should exist and allow access', async (done) => {
-    const response = await S3.headBucket({ Bucket: process.env.AWS_BUCKET_KEY }).promise();
+    const response = await S3.headBucket({ Bucket: process.env.AWS_BUCKET_NAME }).promise();
     expect(response).toStrictEqual({});
     done();
   });

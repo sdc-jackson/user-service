@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus } = require('./database/helpers');
 
+
 app.use(express.static('public'));
 app.use('/rooms/:id', express.static('public'));
 app.use(cors());

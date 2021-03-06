@@ -59,9 +59,10 @@ const defaultState = {
 };
 
 const HostSection = () => {
-  const [ host, setHost ] = useState(defaultState);
+  const [host, setHost] = useState(defaultState);
 
   useEffect(() => {
+
     const fetchHostData = async (id) => {
       const res = await axios.get(`/users/${id}`);
       setHost(res.data);
@@ -83,7 +84,7 @@ const HostSection = () => {
             />
             <HostDescription
               bio={host.bio}
-              cohosts={[{name: host.name, avatarUrl: host.avatarUrl }]}
+              cohosts={[{ name: host.name, avatarUrl: host.avatarUrl }]}
               duringYourStay={`My interaction with guests will be minimal. Although I may bump into you occasionally, we'll give you as much privacy as we can. Since I live in another house on the property, I'm always around if you need anything. Texting is best, but you can call or knock on my door if it's urgent.`} // Needs data from another service
               isSuperhost={host.isSuperhost}
               name={host.name}

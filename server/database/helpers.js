@@ -16,6 +16,7 @@ const generatePhoto = async () => {
 
 const getUserById = async (userId) => {
   try {
+    console.log('getUserById :', userId);
     const user = await User.findOne({ userId });
     return user;
   } catch (err) {
