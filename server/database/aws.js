@@ -39,7 +39,7 @@ const uploadPhotoToS3 = (photo) => {
 
   return new Promise((resolve, reject) => {
     S3.upload(uploadParams, (err, data) => {
-      console.log('Data: ', data)
+      //console.log('Data: ', data)
       if (err) {
         reject(err);
       } else {

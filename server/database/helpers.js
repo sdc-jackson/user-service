@@ -43,9 +43,69 @@ const getUserSuperhostStatus = async (userId) => {
   }
 };
 
+//SDC
+
+//insert UserInfo
+//http://localhost:5007/users/insertUser
+const insertUserInfo = (userInfoObj) => {
+  //check user exists, if not, insert
+  const userDetails = new User(userInfoObj);
+  //find and modify
+  return User.find({ name: userInfoObj.name }).select("userId")
+    .then(userId => {
+      console.log('UserId ', userId);
+      return userDetails.save();
+    })
+    .then(userAdded => {
+      console.log('User added: ' + userAdded)
+      return ('user added');
+    })
+    .catch(err => handleError(err))
+
+};
+
+//update UserInfo
+const updateUserInfo = (userInfoObj) => {
+  //condition,update, options, callback
+  return User.updateMany({ userId: userInfoObj.userId },
+    {
+      name: userInfoObj.name,
+      joinDate: userInfoObj.joinDate,
+      bio: userInfoObj.bio,
+      avatarUrl: userInfoObj.avatarUrl,
+      isSuperhost: userInfoObj.isSuperhost,
+      identityVerified: userInfoObj.identityVerified,
+      languages: userInfoObj.languages,
+      responseRate: userInfoObj.responseRate,
+      responseTime: userInfoObj.responseTime
+    })
+    .then(results => {
+      console.log('results : ', results);
+      console.log('User updated');
+      return (results);
+    })
+    .catch(err => console.log(err))
+
+}
+
+const deleteUserInfo = (userid) => {
+  return User.deleteMany({ userId: userid })
+    .then(result => {
+      console.log('Data Deleted: ', result);
+      return result;
+    })
+    .catch(err => {
+      console.log('err occurred: ', err);
+      return err;
+    })
+}
+
 module.exports = {
   generatePhoto,
   getUserById,
   getUserNameAndPhoto,
-  getUserSuperhostStatus
+  getUserSuperhostStatus,
+  insertUserInfo,
+  updateUserInfo,
+  deleteUserInfo
 };
