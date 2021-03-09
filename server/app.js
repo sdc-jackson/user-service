@@ -45,7 +45,7 @@ app.post('/users/insertUser', (req, res) => {
         console.log('input :', results)
         res.status(200).send(results);
       } else {
-        res.status(404).send({ message: 'Server Error' });
+        res.status(404).send({ message: 'Server Error - Record was not inserted' });
       }
     })
     .catch(err => console.log(err));

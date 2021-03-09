@@ -44,29 +44,28 @@ const getUserSuperhostStatus = async (userId) => {
 };
 
 //SDC
-
-//insert UserInfo
+//tested using Postman
+//insert UserInfo based on username
 //http://localhost:5007/users/insertUser
 const insertUserInfo = (userInfoObj) => {
   //check user exists, if not, insert
   const userDetails = new User(userInfoObj);
-  //find and modify
-  return User.find({ name: userInfoObj.name }).select("userId")
-    .then(userId => {
-      console.log('UserId ', userId);
-      return userDetails.save();
+  return User.findOne({ name: userInfoObj.name })
+    .then(result => {
+      if (!result) {
+        return userDetails.save();
+      } else {
+        return ('Username already exists, not added');
+      }
+
     })
-    .then(userAdded => {
-      console.log('User added: ' + userAdded)
-      return ('user added');
-    })
-    .catch(err => handleError(err))
+    .catch(err => console.log(err))
 
 };
 
-//update UserInfo
+//update UserInfo based on userID
 const updateUserInfo = (userInfoObj) => {
-  //condition,update, options, callback
+
   return User.updateMany({ userId: userInfoObj.userId },
     {
       name: userInfoObj.name,
@@ -80,22 +79,19 @@ const updateUserInfo = (userInfoObj) => {
       responseTime: userInfoObj.responseTime
     })
     .then(results => {
-      console.log('results : ', results);
-      console.log('User updated');
       return (results);
     })
     .catch(err => console.log(err))
 
 }
 
+//delete user based on userid
 const deleteUserInfo = (userid) => {
   return User.deleteMany({ userId: userid })
     .then(result => {
-      console.log('Data Deleted: ', result);
       return result;
     })
     .catch(err => {
-      console.log('err occurred: ', err);
       return err;
     })
 }
