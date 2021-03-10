@@ -43,9 +43,65 @@ const getUserSuperhostStatus = async (userId) => {
   }
 };
 
+//SDC
+//tested using Postman
+//insert UserInfo based on username
+//http://localhost:5007/users/insertUser
+const insertUserInfo = (userInfoObj) => {
+  //check user exists, if not, insert
+  const userDetails = new User(userInfoObj);
+  return User.findOne({ name: userInfoObj.name })
+    .then(result => {
+      if (!result) {
+        return userDetails.save();
+      } else {
+        return ('Username already exists, not added');
+      }
+
+    })
+    .catch(err => console.log(err))
+
+};
+
+//update UserInfo based on userID
+const updateUserInfo = (userInfoObj) => {
+
+  return User.updateMany({ userId: userInfoObj.userId },
+    {
+      name: userInfoObj.name,
+      joinDate: userInfoObj.joinDate,
+      bio: userInfoObj.bio,
+      avatarUrl: userInfoObj.avatarUrl,
+      isSuperhost: userInfoObj.isSuperhost,
+      identityVerified: userInfoObj.identityVerified,
+      languages: userInfoObj.languages,
+      responseRate: userInfoObj.responseRate,
+      responseTime: userInfoObj.responseTime
+    })
+    .then(results => {
+      return (results);
+    })
+    .catch(err => console.log(err))
+
+}
+
+//delete user based on userid
+const deleteUserInfo = (userid) => {
+  return User.deleteMany({ userId: userid })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err;
+    })
+}
+
 module.exports = {
   generatePhoto,
   getUserById,
   getUserNameAndPhoto,
-  getUserSuperhostStatus
+  getUserSuperhostStatus,
+  insertUserInfo,
+  updateUserInfo,
+  deleteUserInfo
 };

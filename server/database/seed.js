@@ -5,6 +5,8 @@ const AWS = require('./aws.js');
 const { mongoose, User } = require('./schema.js');
 
 const languages = ['English', 'Spanish', 'French', 'Portuguese', 'German', 'Italian', 'Cambodian', 'Thai', 'Shyriiwook'];
+// var startTime = new Date();
+// var highResStart = process.hrtime();
 
 const seedUser = async (id) => {
   try {
@@ -46,8 +48,12 @@ const seedManyUsers = (start, number) => {
   Promise.all(promises)
     .then(() => {
       console.log('Batch complete');
+      let time = new Date();
+      console.log('Batch complete time: ', time);
+
       if (number > 0) {
         seedManyUsers(start, number);
+
       } else {
         console.log('Seeding complete');
         mongoose.disconnect();
@@ -56,4 +62,4 @@ const seedManyUsers = (start, number) => {
     .catch(() => console.error('Batch unsuccessful'));
 };
 
-seedManyUsers(100, 100);
+seedManyUsers(100, 100000);
