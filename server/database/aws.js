@@ -9,23 +9,8 @@ AWS.config.update({
 });
 
 const S3Bucket = process.env.AWS_BUCKET_NAME;
-// const S3 = new AWS.S3({
-//   region: process.env.AWS_REGION,
-//   apiVersion: 'latest',
-//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-// });
-
 const S3 = new AWS.S3();//create a new instance of s3
 //payload for S3 api
-
-// const uploadParams = {
-//   ACL: 'public-read',
-//   Body: photo.data,
-//   Bucket: S3Bucket,
-//   ContentType: 'image/jpeg',
-//   Key: `${Date.now()}.jpg`,
-// };
 
 const uploadPhotoToS3 = (photo) => {
   const uploadParams = {

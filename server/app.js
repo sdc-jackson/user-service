@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const postgres = require('./database/postgresql');
+
 const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus, insertUserInfo, updateUserInfo, deleteUserInfo } = require('./database/helpers');
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -78,6 +80,13 @@ app.delete('/users/deleteUser', (req, res) => {
     })
     .catch(err => console.log(err));
 
+})
+
+app.post('/hostType', (req, res) => {
+  console.log('hostType');
+  //res.status(200).send('hostType');
+  postgres.insertHostType('Superhost2');
+  res.status(200).send('hostType added ');
 })
 
 module.exports = app;
