@@ -19,8 +19,9 @@ const generateAWSUrls = async () => {
     S3Url = await AWS.uploadPhotoToS3(photo);
     awsUrls.push(S3Url);
     if (i === 999) {
-      const millis = Date.now() - start;
-      console.log(`seconds elapsed AWL urls = ${Math.floor(millis / 1000)}`);
+      // const millis = Date.now() - start;
+      // console.log(`seconds elapsed AWL urls = ${Math.floor(millis / 1000)}`);
+      console.log(`seconds elapsed AWL urls = ${Date.now()}`);
 
     }
   }
