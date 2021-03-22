@@ -4,6 +4,7 @@ var couch = require('./couchdb');
 var databaseNames = ['airbnb_dev', 'airbnb-prod'];
 
 const initCouchDb = (cb) => {
+  //deleteDatabases(cb);
   createDatabases(cb);
 };
 
@@ -21,7 +22,21 @@ const createDatabase = (dbname, cb) => {
     } else {
       console.log(`Database ${dbname} created successfully.`);
     }
+    cb(err);
+  });
+};
 
+const deleteDatabases = (cb) => {
+  async.each(databaseNames, deleteDatabase, cb);
+};
+
+const deleteDatabase = (dbname, cb) => {
+  couch.db.destroy(dbname, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Database ${dbname} destroyed successfully.`);
+    }
     cb(err);
   });
 };

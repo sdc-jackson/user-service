@@ -51,7 +51,7 @@ const loadMasterData = () => {
       console.log('responseTypeIds: ', responseTypeIds);
     })
     .then(result => {
-      return generateAWSUrls();
+      //return generateAWSUrls();
     })
     .catch(err => console.log(err));
 
@@ -422,7 +422,7 @@ const fileCreationFlow = (sampleSize) => {
       return createcsvFileByObject(sampleSize, filename4, 'Rooms', csvHeader4, start);
     })
     .then(result => {
-      return importCSVtoDBTables();
+      //return importCSVtoDBTables();
       //return dbmodel.importCSVtoDB(filename1, 'owners');
     })
     .then(final => {
@@ -438,7 +438,7 @@ const fileCreationFlow = (sampleSize) => {
 
 //generateAWSUrls();
 loadMasterData()
-  .then(result => fileCreationFlow(100))
+  .then(result => fileCreationFlow(10000000))
   .catch(err => console.log(err));
 
 
