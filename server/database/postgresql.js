@@ -2,10 +2,10 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const path = require('path')
 const format = require('pg-format');//to safely create dynamic SQL queries
-const Cursor = require('pg-cursor');
-var copyFrom = require('pg-copy-streams').from;
-const fastcsv = require("fast-csv");
-const fs = require("fs");
+// const Cursor = require('pg-cursor');
+// var copyFrom = require('pg-copy-streams').from;
+// const fastcsv = require("fast-csv");
+// const fs = require("fs");
 
 const pool = new Pool({
   user: process.env.PGUSER,

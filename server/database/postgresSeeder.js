@@ -19,8 +19,9 @@ const generateAWSUrls = async () => {
     S3Url = await AWS.uploadPhotoToS3(photo);
     awsUrls.push(S3Url);
     if (i === 999) {
-      const millis = Date.now() - start;
-      console.log(`seconds elapsed AWL urls = ${Math.floor(millis / 1000)}`);
+      // const millis = Date.now() - start;
+      // console.log(`seconds elapsed AWL urls = ${Math.floor(millis / 1000)}`);
+      console.log(`seconds elapsed AWL urls = ${Date.now()}`);
 
     }
   }
@@ -50,7 +51,7 @@ const loadMasterData = () => {
       console.log('responseTypeIds: ', responseTypeIds);
     })
     .then(result => {
-      return generateAWSUrls();
+      //return generateAWSUrls();
     })
     .catch(err => console.log(err));
 
@@ -421,7 +422,7 @@ const fileCreationFlow = (sampleSize) => {
       return createcsvFileByObject(sampleSize, filename4, 'Rooms', csvHeader4, start);
     })
     .then(result => {
-      return importCSVtoDBTables();
+      //return importCSVtoDBTables();
       //return dbmodel.importCSVtoDB(filename1, 'owners');
     })
     .then(final => {
@@ -437,7 +438,7 @@ const fileCreationFlow = (sampleSize) => {
 
 //generateAWSUrls();
 loadMasterData()
-  .then(result => fileCreationFlow(100))
+  .then(result => fileCreationFlow(10000000))
   .catch(err => console.log(err));
 
 
