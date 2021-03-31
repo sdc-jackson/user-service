@@ -1,5 +1,6 @@
 var couch = require('./couchdb');
-var owners = require('./couchdb').use('airbnb_dev');
+//var owners = require('./couchdb').use('airbnb_dev');
+var owners = require('./couchdb').use('airbnb_qa');
 var faker = require('faker');
 const AWS = require('./aws.js');
 const { generatePhoto } = require('./helpers');
@@ -56,13 +57,14 @@ const ownerInfo = {
 
 let awsUrls = [];
 const generateAWSUrls = async () => {
-  const start = Date.now();
-  let S3Url = '';
-  for (let i = 0; i < 1000; i++) {
-    let photo = await generatePhoto();
-    S3Url = await AWS.uploadPhotoToS3(photo);
-    awsUrls.push(S3Url);
-  }
+  // const start = Date.now();
+  // let S3Url = '';
+  // for (let i = 0; i < 1000; i++) {
+  //   let photo = await generatePhoto();
+  //   S3Url = await AWS.uploadPhotoToS3(photo);
+  //   awsUrls.push(S3Url);
+  // }
+  console.log('AWS urls');
   return Promise.resolve(true);
 }
 
