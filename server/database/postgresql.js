@@ -7,21 +7,14 @@ var copyFrom = require('pg-copy-streams').from;
 const fastcsv = require("fast-csv");
 const fs = require("fs");
 
-// const pool = new Pool({
-//   user: process.env.PGUSER,
-//   host: process.env.PGHOST,
-//   database: process.env.PGDATABASE,
-//   password: process.env.PGPASSWORD,
-//   port: process.env.PGPORT
-// })
-
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'airbnb',
-  password: 'admin82!',
-  port: 5432
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT
 })
+
 
 //not used because of performance issues
 const insertOwner = (ownerObj) => {

@@ -5,12 +5,12 @@ const { Pool } = require('pg');
 
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'airbnb',
-  password: 'admin82!',
-  port: 5432
-});
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT
+})
 
 
 const generatePhoto = async () => {
@@ -26,6 +26,7 @@ const generatePhoto = async () => {
   }
 };
 
+//original code - keeping for reference
 // const getUserById = async (userId) => {
 //   try {
 //     console.log('getUserById :', userId);
@@ -37,25 +38,9 @@ const generatePhoto = async () => {
 //   }
 // };
 
-const getUserByIdBacup = (userId) => {
 
-  const getQuery = `SELECT r.owner_id as userid, o.joined_date as joinDate, o.is_identity_verified as identityVerified, o.response_rate as responseRate, TRIM(o.profile_pic) as avatarUrl, o.is_super_host as isSuperhost, TRIM(o.name) as name, TRIM(l.name) as languages, od.during_stay, od.host_desc as bio, TRIM(rt.description) as responseTime FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = ` + userId;
-
-  return new Promise(function (resolve, reject) {
-    pool.query(getQuery, (error, results) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(results.rows[0])
-    })
-
-  })
-
-};
-
-//in progress - get array into result
 const getUserById = (userId) => {
-
+  // 2 queries: one for languages and other for remaining owner details
   const queryLanguages = `SELECT TRIM(l.name) as name
   FROM rooms r
   inner join owners o on r.owner_id = o.owner_id
@@ -63,7 +48,7 @@ const getUserById = (userId) => {
   inner join languages l on ol.languageid = l.id
   where r.id = ` + userId;
 
-  const getQuery = queryLanguages + ';' + `SELECT distinct r.owner_id as userid, o.joined_date as joinDate, o.is_identity_verified as identityVerified, o.response_rate as responseRate, TRIM(o.profile_pic) as avatarUrl, o.is_super_host as isSuperhost, TRIM(o.name) as name, od.during_stay, od.host_desc as bio, TRIM(rt.description) as responseTime FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = ` + userId;
+  const getQuery = queryLanguages + ';' + `SELECT distinct r.owner_id as userid, o.joined_date as "joinDate", o.is_identity_verified as "identityVerified", o.response_rate as "responseRate", TRIM(o.profile_pic) as "avatarUrl", o.is_super_host as "isSuperhost", TRIM(o.name) as name, od.during_stay, od.host_desc as bio, TRIM(rt.description) as "responseTime", o.reviews_count as "reviewsCount" FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = ` + userId;
 
   return new Promise(function (resolve, reject) {
     pool.query(getQuery, (error, results) => {
@@ -76,7 +61,6 @@ const getUserById = (userId) => {
       //console.log('results.rows : ', results[1].rows);
       let userData = results[1].rows[0];
       userData['languages'] = langArr;
-      //console.log('userData rows : ', userData);
       resolve(userData);
     })
 
@@ -84,30 +68,6 @@ const getUserById = (userId) => {
 
 };
 
-getUserById(9999993);
-
-//getUserById(100);
-
-const getUserByIdBackup = async (roomId) => {
-  console.log('getUserById called');
-  const getQuery = `SELECT r.owner_id as userid, o.joined_date as joinDate, o.reviews_count as reviewsCount, o.is_identity_verified as identityVerified, o.response_rate as responseRate, TRIM(o.profile_pic) as avatarUrl, o.is_super_host as isSuperhost, TRIM(o.name) as name, array_agg(TRIM(l.name)) as languages, od.during_stay, od.host_desc as bio, TRIM(rt.description) as responseTime FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = 9999997`;
-
-  return pool.connect()
-    .then(client => {
-      return client.query(getQuery)
-        .then(res => {
-          console.log('Res select user :', res.rows[0]);
-          return res.rows[0];
-        })
-
-    })
-    .catch(err => {
-      client.release();
-      console.log(err.stack);
-      return null;
-    })
-
-}
 
 const getUserNameAndPhoto = async (userId) => {
   try {

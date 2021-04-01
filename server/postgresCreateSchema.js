@@ -1,15 +1,16 @@
 //to do
-// const { Pool } = require('pg');
-// const pool = new Pool({
+const { Pool } = require('pg');
+const pool = new Pool({
 
-// })
+})
 
-// const client = pool.connect();
-// client.query(createOwnersTable)
-//   .then(function () {
-//     console.log('schema  was successfully created');
-//     return;
-//   })
+const createOwnersTable = "CREATE TABLE OWNERS( ID SERIAL PRIMARY KEY,  JOINED_DATE DATE, REVIEWS_COUNT INTEGER,IS_IDENTITY_VERIFIED BOOLEAN,  RESPONSE_RATE INT, RESPONSE_TIME_ID INT,  PROFILE_PIC TEXT, IS_SUPER_HOST BOOLEAN, NAME TEXT, OWNER_ID INT );";
+const client = pool.connect();
+client.query(createOwnersTable)
+  .then(function () {
+    console.log('schema  was successfully created');
+    return;
+  })
 //   .catch((err) => {
 //     console.log(err);
 //     console.log('Schema was not created');

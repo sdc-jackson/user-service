@@ -28,12 +28,12 @@ const generatePhoto = async () => {
 // };
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'airbnb',
-  password: 'admin82!',
-  port: 5432
-});
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT
+})
 
 const getUserById = (roomId) => {
   console.log('getUserById called');
