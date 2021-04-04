@@ -2,10 +2,10 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const path = require('path')
 const format = require('pg-format');//to safely create dynamic SQL queries
-// const Cursor = require('pg-cursor');
-// var copyFrom = require('pg-copy-streams').from;
-// const fastcsv = require("fast-csv");
-// const fs = require("fs");
+const Cursor = require('pg-cursor');
+var copyFrom = require('pg-copy-streams').from;
+const fastcsv = require("fast-csv");
+const fs = require("fs");
 
 const pool = new Pool({
   user: process.env.PGUSER,
@@ -15,6 +15,8 @@ const pool = new Pool({
   port: process.env.PGPORT
 })
 
+
+//not used because of performance issues
 const insertOwner = (ownerObj) => {
   //console.log('ownerObj pg: ', ownerObj);
   //promise
@@ -34,6 +36,7 @@ const insertOwner = (ownerObj) => {
     })
 }
 
+//not used because of performance issue with this approach
 const tempTableToOwnersTable = () => {
   const start = Date.now();
   console.log('tempTableToOwnersTable starting timer... at  : ', start);
@@ -59,6 +62,7 @@ const tempTableToOwnersTable = () => {
 
 }
 
+//not in use currently
 const bulkCopyCSV = (ownerObj) => {
   //only works till 15k records in file
   var fileStream = fs.createReadStream("csvFiles/sample.csv");
@@ -96,6 +100,7 @@ const bulkCopyCSV = (ownerObj) => {
 
 }
 
+//not in use currently
 const bulkCopyPGOwner = () => {
   //const filePath = "csvFiles/sample.csv";
   var filePath = path.join(__dirname, '/csvFiles/sample.csv')
@@ -127,6 +132,7 @@ const bulkCopyPGOwner = () => {
 
 }
 
+//in use
 const importCSVtoDB = (sourceFile, tableName) => {
 
   var filePath = path.join(__dirname, '/' + sourceFile);
@@ -158,6 +164,7 @@ const importCSVtoDB = (sourceFile, tableName) => {
 
 }
 
+//not in use currently
 const bulkInsertOwner = (ownerObj) => {
   //console.log('ownerObj pg: ', ownerObj);
   //promise
@@ -192,7 +199,7 @@ const bulkInsertOwner = (ownerObj) => {
 
 }
 
-//delete response type and language
+//delete response type and language for initial seeding
 const deletMasterData = (languageArray) => {
   const deleteLanguages = 'Delete from Languages';
   const deleteResponseType = 'Delete from Response_Time';
@@ -215,7 +222,7 @@ const deletMasterData = (languageArray) => {
 
 }
 
-
+//insert master value response type for initial load
 const insertResponseType = (responseTimeArr) => {
   const nestedResponse = responseTimeArr.map(respTime => [respTime]);
   const query = format('INSERT INTO RESPONSE_TIME (DESCRIPTION) VALUES %L returning id', nestedResponse);
@@ -235,6 +242,7 @@ const insertResponseType = (responseTimeArr) => {
 
 }
 
+// insert master value languages for initial load
 const insertLanguages = (languageArray) => {
   const nestedArray = languageArray.map(language => [language]);
   const query1 = format('INSERT INTO LANGUAGES (NAME) VALUES %L returning id', nestedArray);

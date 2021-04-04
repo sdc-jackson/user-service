@@ -3,16 +3,6 @@ const { User } = require('./schema.js');
 require('dotenv').config();
 const { Pool } = require('pg');
 
-
-const pool = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT
-})
-
-
 const generatePhoto = async () => {
   try {
     const photo = await axios({
@@ -26,7 +16,6 @@ const generatePhoto = async () => {
   }
 };
 
-//original code - keeping for reference
 // const getUserById = async (userId) => {
 //   try {
 //     console.log('getUserById :', userId);
@@ -38,35 +27,62 @@ const generatePhoto = async () => {
 //   }
 // };
 
+const pool = new Pool({
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT
+})
 
-const getUserById = (userId) => {
-  // 2 queries: one for languages and other for remaining owner details
-  const queryLanguages = `SELECT TRIM(l.name) as name
-  FROM rooms r
-  inner join owners o on r.owner_id = o.owner_id
-  inner join owner_language ol on ol.ownerid = o.owner_id
-  inner join languages l on ol.languageid = l.id
-  where r.id = ` + userId;
-
-  const getQuery = queryLanguages + ';' + `SELECT distinct r.owner_id as userid, o.joined_date as "joinDate", o.is_identity_verified as "identityVerified", o.response_rate as "responseRate", TRIM(o.profile_pic) as "avatarUrl", o.is_super_host as "isSuperhost", TRIM(o.name) as name, od.during_stay, od.host_desc as bio, TRIM(rt.description) as "responseTime", o.reviews_count as "reviewsCount" FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = ` + userId;
+const getUserById = (roomId) => {
+  console.log('getUserById called');
+  const getQuery = `SELECT r.owner_id as userid, o.joined_date as joinDate, o.reviews_count as reviewsCount, o.is_identity_verified as identityVerified, o.response_rate as responseRate, TRIM(o.profile_pic) as avatarUrl, o.is_super_host as isSuperhost, TRIM(o.name) as name,  TRIM(l.name)  as languages, od.during_stay, od.host_desc as bio, TRIM(rt.description) as responseTime FROM rooms r LEFT JOIN owners o ON r.owner_id = o.owner_id LEFT JOIN owner_language ol ON o.owner_id = ol.ownerid LEFT JOIN languages l ON ol.languageid = l.id LEFT JOIN owner_details od ON o.owner_id = od.ownerid LEFT JOIN response_time rt ON o.response_time_id = rt.id WHERE r.id = 9999997`;
 
   return new Promise(function (resolve, reject) {
     pool.query(getQuery, (error, results) => {
       if (error) {
         reject(error);
       }
-      //console.log('results.rows : ', results[0].rows);
-      let langArr = results[0].rows.map(elem => elem.name);
-
-      //console.log('results.rows : ', results[1].rows);
-      let userData = results[1].rows[0];
-      userData['languages'] = langArr;
-      resolve(userData);
+      resolve(results.rows[0])
     })
 
   })
+  // return pool.connect()
+  //   .then(client => {
+  //     return client.query(getQuery)
+  //       .then(res => {
+  //         console.log('Res select user :', res.rows[0]);
+  //         return res.rows[0];
+  //       })
+  //   })
+  //   .catch(err => {
+  //     client.release();
+  //     console.log(err.stack);
+  //   })
 
-};
+}
+
+getUserById(100);
+
+const insertLanguages = (languageArray) => {
+  const nestedArray = languageArray.map(language => [language]);
+  const query1 = format('INSERT INTO LANGUAGES (NAME) VALUES %L returning id', nestedArray);
+
+  return pool.connect()
+    .then(client => {
+      return client.query(query1)
+        .then(res => {
+          //console.log('res insert LANGUAGE : ', res.rows);
+          return res.rows;
+        })
+        .catch(e => {
+          client.release();
+          console.log(e.stack);
+        })
+    })
+
+}
 
 
 const getUserNameAndPhoto = async (userId) => {

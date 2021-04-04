@@ -20,8 +20,8 @@ const HostIdContainer = styled.div`
 const HostId = ({ host }) => {
   return (
     <HostIdContainer>
-      <HostDetails name={host.name} date={host.joinDate}/>
-      <HostPhoto img={host.avatarUrl}/>
+      <HostDetails name={host.name} date={host.joinDate} />
+      <HostPhoto img={host.avatarUrl} />
     </HostIdContainer>
   );
 };

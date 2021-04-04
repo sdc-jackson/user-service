@@ -43,34 +43,67 @@ const TwoColumn = styled.div`
   }
 `;
 
+//original code for mongo
+// const defaultState = {
+//   'languages': [],
+//   '_id': '',
+//   'userId': null,
+//   'name': '',
+//   'joinDate': '',
+//   'bio': '',
+//   'avatarUrl': '',
+//   'isSuperhost': null,
+//   'identityVerified': null,
+//   'responseRate': null,
+//   'responseTime': '',
+//   '__v': null
+// };
+
+
 const defaultState = {
-  'languages': [],
-  '_id': '',
-  'userId': null,
-  'name': '',
-  'joinDate': '',
-  'bio': '',
-  'avatarUrl': '',
+  'userid': null,
+  'joinDate:': '',
+  'identityVerified:': null,
+  'responserate:': null,
+  'avatarUrl:': 'http://placeimg.com/640/480',
   'isSuperhost': null,
-  'identityVerified': null,
-  'responseRate': null,
+  'name': '',
+  'languages': [],
+  'during_stay': '',
+  'bio': '',
   'responseTime': '',
-  '__v': null
+  'reviewsCount': null
+
 };
 
 const HostSection = () => {
   const [host, setHost] = useState(defaultState);
 
-  useEffect(() => {
+  const fetchHostData = (id) => {
+    axios.get(`/users/${id}`)
+      .then(response => {
+        return response.data;
+      })
+      .then(data => {
+        setHost(data);
+      })
+      .catch(err => {
+        console.log('Error in Host section : ', err);
+      })
 
-    const fetchHostData = async (id) => {
-      const res = await axios.get(`/users/${id}`);
-      setHost(res.data);
-    };
+  }
+
+  useEffect(() => {
+    // const fetchHostData = async (id) => {
+    //   const res = await axios.get(`/users/${id}`);
+    //   console.log('res.data :', res.data);
+    //   setHost(res.data);
+    // };
     fetchHostData(window.location.pathname.split('/')[2]);
   }, []);
 
   return (
+
     <HostSectionContainer>
       <SectionInnerContainer>
 
@@ -80,12 +113,14 @@ const HostSection = () => {
             <HostStats
               isSuperhost={host.isSuperhost}
               isVerified={host.identityVerified}
-              reviews={17} // Needs data from another service
+              reviews={host.reviewsCount} // Needs data from another service
             />
             <HostDescription
               bio={host.bio}
               cohosts={[{ name: host.name, avatarUrl: host.avatarUrl }]}
-              duringYourStay={`My interaction with guests will be minimal. Although I may bump into you occasionally, we'll give you as much privacy as we can. Since I live in another house on the property, I'm always around if you need anything. Texting is best, but you can call or knock on my door if it's urgent.`} // Needs data from another service
+              // duringYourStay={`My interaction with guests will be minimal. Although I may bump into you occasionally, we'll give you as much privacy as we can. Since I live in another house on the property, I'm always around if you need anything. Texting is best, but you can call or knock on my door if it's urgent.`} // Needs data from another service
+
+              duringYourStay={host.during_stay} // created column in postgres and reading from there
               isSuperhost={host.isSuperhost}
               name={host.name}
             />
@@ -100,7 +135,8 @@ const HostSection = () => {
           </div>
         </TwoColumn>
       </SectionInnerContainer>
-    </HostSectionContainer>
+    </HostSectionContainer >
+
   );
 };
 

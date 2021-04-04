@@ -12,13 +12,28 @@ app.use(express.static('public'));
 app.use('/rooms/:id', express.static('public'));
 app.use(cors());
 
-app.get('/users/:userId', async (req, res) => {
-  try {
-    const user = await getUserById(req.params.userId);
-    user ? res.status(200).send(user) : res.sendStatus(404);
-  } catch (err) {
-    res.status(500).send({ message: 'Server Error' });
-  }
+// app.get('/users/:userId', async (req, res) => {
+//   try {
+//     console.log('req.params.userId: ', req.params.userId);
+//     const user = await getUserById(req.params.userId);
+//     console.log('user from DB : ', user);
+//     user ? res.status(200).send(user) : res.sendStatus(404);
+//   } catch (err) {
+//     res.status(500).send({ message: 'Server Error' });
+//   }
+// });
+
+app.get('/users/:userId', (req, res) => {
+
+  console.log('req.params.userId: ', req.params.userId);
+  getUserById(req.params.userId)
+    .then(userDetails => {
+      res.status(200).send(userDetails);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
 });
 
 app.get('/users/:userId/id', async (req, res) => {
@@ -40,7 +55,6 @@ app.get('/users/:userId/super', async (req, res) => {
 });
 
 app.post('/users/insertUser', (req, res) => {
-  //console.log('req.body : ', req.body);
   insertUserInfo(req.body)
     .then(results => {
       if (results) {
@@ -54,7 +68,6 @@ app.post('/users/insertUser', (req, res) => {
 })
 
 app.put('/users/updateUser', (req, res) => {
-  //console.log(req.body);
   updateUserInfo(req.body)
     .then(results => {
       if (results) {
@@ -69,7 +82,6 @@ app.put('/users/updateUser', (req, res) => {
 
 app.delete('/users/deleteUser', (req, res) => {
   const userInfo = req.body;
-  console.log('userId: ', userInfo);
   deleteUserInfo(req.body.userId)
     .then(results => {
       if (results) {
@@ -83,8 +95,6 @@ app.delete('/users/deleteUser', (req, res) => {
 })
 
 app.post('/hostType', (req, res) => {
-  console.log('hostType');
-  //res.status(200).send('hostType');
   postgres.insertHostType('Superhost2');
   res.status(200).send('hostType added ');
 })

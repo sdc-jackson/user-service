@@ -1,7 +1,8 @@
 var async = require('async');
 var couch = require('./couchdb');
 
-var databaseNames = ['airbnb_dev', 'airbnb-prod'];
+//var databaseNames = ['airbnb_dev', 'airbnb_prod', 'airbnb_qa'];
+var databaseNames = ['airbnb_qa'];
 
 const initCouchDb = (cb) => {
   //deleteDatabases(cb);

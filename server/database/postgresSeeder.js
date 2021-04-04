@@ -51,7 +51,7 @@ const loadMasterData = () => {
       console.log('responseTypeIds: ', responseTypeIds);
     })
     .then(result => {
-      //return generateAWSUrls();
+      return generateAWSUrls();
     })
     .catch(err => console.log(err));
 
@@ -74,7 +74,7 @@ const loadBulkData = (batchSize, writer, encoding, callback) => {
       //console.log('S3Url: ', S3Url);
       const owner = {
         name: faker.name.firstName(),
-        joinedDate: '2020-04-23',//faker.date.past(),
+        joinedDate: faker.date.past(),
         reviewsCount: faker.random.number(),
         isIdentityVerified: faker.random.boolean(),
         isSuperHost: faker.random.boolean(),
@@ -422,7 +422,7 @@ const fileCreationFlow = (sampleSize) => {
       return createcsvFileByObject(sampleSize, filename4, 'Rooms', csvHeader4, start);
     })
     .then(result => {
-      //return importCSVtoDBTables();
+      return importCSVtoDBTables();
       //return dbmodel.importCSVtoDB(filename1, 'owners');
     })
     .then(final => {
