@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const postgres = require('./database/postgresql');
+require('newrelic');
 
-const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus, insertUserInfo, updateUserInfo, deleteUserInfo } = require('./database/helpers');
+const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus, insertUserInfo, updateUserInfo, deleteUserInfo, updateOwnerDetails, updateOwnerInfo, insertOwner } = require('./database/helpers');
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,6 +36,50 @@ app.get('/users/:userId', (req, res) => {
     });
 
 });
+
+app.put('/rooms/updateOwnerDetails/:id', (req, res) => {
+  console.log('results: ', req);
+  updateOwnerDetails(req, res)
+    .then(results => {
+      if (results) {
+        console.log('results: ', results);
+        res.status(200).send(results);
+      } else {
+        res.status(500).send({ message: 'Record was not updated' })
+      }
+    })
+    .catch(err => console.log(err));
+});
+
+app.put('/rooms/updateOwnerInfo/:id', (req, res) => {
+  console.log('results: ', req);
+  updateOwnerInfo(req, res)
+    .then(results => {
+      if (results) {
+        console.log('results: ', results);
+        res.status(200).send(results);
+      } else {
+        res.status(500).send({ message: 'Record was not updated' })
+      }
+    })
+    .catch(err => console.log(err));
+});
+
+//insertOwner - Post data
+app.post('/rooms/insertOwner/', (req, res) => {
+  console.log('insertOwner post results: ', req.body);
+  insertOwner(req.body)
+    .then(results => {
+      if (results) {
+        console.log('results: ', results);
+        res.status(200).send({ result: results });
+      } else {
+        res.status(500).send({ message: 'Record was not inserted' })
+      }
+    })
+    .catch(err => console.log(err));
+});
+
 
 app.get('/users/:userId/id', async (req, res) => {
   try {

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { User } = require('./schema.js');
-require('dotenv').config();
+// require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/./../../.env' });
 const { Pool } = require('pg');
 
 
@@ -11,7 +12,6 @@ const pool = new Pool({
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT
 })
-
 
 const generatePhoto = async () => {
   try {
@@ -68,6 +68,68 @@ const getUserById = (userId) => {
 
 };
 
+//update - test put request
+const updateOwnerDetails = (request, response) => {
+  const id = parseInt(request.params.id);
+  const { duringStay, hostDesc } = request.body;
+  const UpdateQuery = 'UPDATE owner_details set during_stay= $1, host_desc = $2 from rooms WHERE rooms.id = $3 and rooms.owner_id = owner_details.ownerid;';
+
+  return pool.connect()
+    .then(client => {
+      return client.query(UpdateQuery, [duringStay, hostDesc, id])
+        .then(res => {
+          console.log('res update owner details : ', res.rows);
+          return res.rows;
+        })
+        .catch(e => {
+          client.release();
+          console.log(e.stack);
+        })
+    })
+
+}
+
+//update - test put request
+const updateOwnerInfo = (request, response) => {
+  const id = parseInt(request.params.id);
+  const { reviewsCount, identityVerified, isSuperHost } = request.body;
+  const UpdateQuery = 'UPDATE owners SET joined_date= (SELECT CURRENT_DATE), reviews_count= $1, is_identity_verified= $2, is_super_host= $3  from rooms WHERE rooms.id = $4 and rooms.owner_id = owners.owner_id; ';
+
+  return pool.connect()
+    .then(client => {
+      return client.query(UpdateQuery, [reviewsCount, identityVerified, isSuperHost, id])
+        .then(res => {
+          console.log('res update owner details : ', res.rows);
+          return res.rows;
+        })
+        .catch(e => {
+          client.release();
+          console.log(e.stack);
+        })
+    })
+
+}
+
+
+//insert to test post request
+const insertOwner = (ownerObj) => {
+  //console.log('ownerObj pg: ', ownerObj);
+
+  //to do : insert into owner_languages and owner details, get response time id and host type id
+  const insertOwnerQuery = 'INSERT INTO OWNERS (NAME, JOINED_DATE, REVIEWS_COUNT, IS_IDENTITY_VERIFIED,  RESPONSE_RATE, RESPONSE_TIME_ID, PROFILE_PIC, IS_SUPER_HOST, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+
+  return new Promise(function (resolve, reject) {
+    pool.query(insertOwnerQuery, [ownerObj.name, ownerObj.joinedDate, ownerObj.reviewsCount, ownerObj.isIdentityVerified, ownerObj.responseRate, ownerObj.responseTimeID, ownerObj.profilePic, ownerObj.isSuperHost, ownerObj.ownerid], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      console.log('results.rows : ', results);
+      resolve(results.rowCount);
+    })
+
+  });
+
+}
 
 const getUserNameAndPhoto = async (userId) => {
   try {
@@ -94,6 +156,7 @@ const getUserSuperhostStatus = async (userId) => {
 const insertUserInfo = (userInfoObj) => {
   //check user exists, if not, insert
   const userDetails = new User(userInfoObj);
+
   return User.findOne({ name: userInfoObj.name })
     .then(result => {
       if (!result) {
@@ -147,5 +210,8 @@ module.exports = {
   getUserSuperhostStatus,
   insertUserInfo,
   updateUserInfo,
-  deleteUserInfo
+  deleteUserInfo,
+  updateOwnerDetails,
+  updateOwnerInfo,
+  insertOwner
 };
