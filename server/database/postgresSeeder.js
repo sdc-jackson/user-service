@@ -19,10 +19,7 @@ const generateAWSUrls = async () => {
     S3Url = await AWS.uploadPhotoToS3(photo);
     awsUrls.push(S3Url);
     if (i === 999) {
-      // const millis = Date.now() - start;
-      // console.log(`seconds elapsed AWL urls = ${Math.floor(millis / 1000)}`);
       console.log(`seconds elapsed AWL urls = ${Date.now()}`);
-
     }
   }
   return Promise.resolve(true);
@@ -58,20 +55,11 @@ const loadMasterData = () => {
 }
 
 const loadBulkData = (batchSize, writer, encoding, callback) => {
-  // const start = Date.now();
-  // console.log('starting timer... at  : ', start);
   let i = batchSize;
   const writeToCSV = () => {
     let bufferAvailable = true; //highWaterMark not reached. If it reaches that mark, it stops reading from the source.
-    //let photo = await generatePhoto();
-    // let S3Url = await AWS.uploadPhotoToS3(photo);
     do {
       i -= 1;
-      // if (i % 10000 === 0) {
-      //   photo = await generatePhoto();
-      //   S3Url = await AWS.uploadPhotoToS3(photo);
-      // }
-      //console.log('S3Url: ', S3Url);
       const owner = {
         name: faker.name.firstName(),
         joinedDate: faker.date.past(),
@@ -122,12 +110,12 @@ const loadBulkDataByObject = (batchSize, writer, objectName, encoding, callback)
         photo = await generatePhoto();
         S3Url = await AWS.uploadPhotoToS3(photo);
       }
-      //console.log('S3Url: ', S3Url);
+
       if (objectName === 'owners') {
         const owner = {
           ownerId: sequenceId,
           name: faker.name.firstName(),
-          joinedDate: '2020-04-23',//faker.date.past(),
+          joinedDate: faker.date.past(),//'2020-04-23',//
           reviewsCount: faker.random.number(),
           isIdentityVerified: faker.random.boolean(),
           isSuperHost: faker.random.boolean(),
@@ -189,7 +177,7 @@ const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
       const owner = {
         ownerId: sequenceId,
         name: faker.name.firstName(),
-        joinedDate: '2020-04-23',//faker.date.past(),
+        joinedDate: faker.date.past(), //'2020-04-23',//
         reviewsCount: faker.random.number(),
         isIdentityVerified: faker.random.boolean(),
         isSuperHost: faker.random.boolean(),
@@ -213,6 +201,7 @@ const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
 
 }
 
+//in use
 const loadBulkDataByHostDetails = (batchSize, writer, encoding, callback) => {
 
   let i = batchSize;
@@ -323,7 +312,6 @@ const createcsvFileByObject = (recordCount, filename, object, header, start) => 
     if (object === 'Owners') {
       loadBulkDataByOwners(recordCount, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
-        //timeNow(start);
         writeOwnerInfo.end();
         resolve();
       });
@@ -331,7 +319,6 @@ const createcsvFileByObject = (recordCount, filename, object, header, start) => 
     } else if (object === 'HostDetails') {
       loadBulkDataByHostDetails(recordCount, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
-        //timeNow(start);
         writeOwnerInfo.end();
         resolve();
       });
@@ -339,7 +326,6 @@ const createcsvFileByObject = (recordCount, filename, object, header, start) => 
     } else if (object === 'Language') {
       loadBulkDataByLanguage(recordCount, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
-        //timeNow(start);
         writeOwnerInfo.end();
         resolve();
       });
@@ -347,7 +333,6 @@ const createcsvFileByObject = (recordCount, filename, object, header, start) => 
     } else if (object === 'Rooms') {
       loadBulkDataByRooms(recordCount, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
-        //timeNow(start);
         writeOwnerInfo.end();
         resolve();
       });
@@ -423,7 +408,6 @@ const fileCreationFlow = (sampleSize) => {
     })
     .then(result => {
       return importCSVtoDBTables();
-      //return dbmodel.importCSVtoDB(filename1, 'owners');
     })
     .then(final => {
       console.log('6...');
@@ -437,7 +421,7 @@ const fileCreationFlow = (sampleSize) => {
 }
 
 //generateAWSUrls();
-loadMasterData()
+loadMasterData()//loads master data : languages, response types, aws urls
   .then(result => fileCreationFlow(10000000))
   .catch(err => console.log(err));
 

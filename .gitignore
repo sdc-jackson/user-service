@@ -27,3 +27,7 @@ dist/
 public/
 
 .env
+
+# New Relic files
+newrelic.js
+newrelic_agent.log

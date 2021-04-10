@@ -1,4 +1,5 @@
-require('dotenv').config();
+//require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/./../../.env' });
 const { Pool } = require('pg');
 const path = require('path')
 const format = require('pg-format');//to safely create dynamic SQL queries
@@ -18,9 +19,6 @@ const pool = new Pool({
 
 //not used because of performance issues
 const insertOwner = (ownerObj) => {
-  //console.log('ownerObj pg: ', ownerObj);
-  //promise
-  //to do : insert into owner_languages and owner details, get response time id and host type id
 
   pool.connect()
     .then(client => {
@@ -62,9 +60,9 @@ const tempTableToOwnersTable = () => {
 
 }
 
-//not in use currently
+//not in use currently : only works till 15k records in file
 const bulkCopyCSV = (ownerObj) => {
-  //only works till 15k records in file
+
   var fileStream = fs.createReadStream("csvFiles/sample.csv");
   let csvData = [];
   let csvStream = fastcsv
@@ -179,7 +177,6 @@ const bulkInsertOwner = (ownerObj) => {
         client.query('WITH INS1 AS (INSERT INTO OWNERS (NAME, JOINED_DATE, REVIEWS_COUNT, IS_IDENTITY_VERIFIED,  RESPONSE_RATE, RESPONSE_TIME_ID, PROFILE_PIC, IS_SUPER_HOST) VALUES ($1, $2, $3, $4, $5, (select ID from RESPONSE_TIME WHERE description = $6 LIMIT 1), $7, $8) returning id AS OwnerId), INS2 as ( INSERT INTO OWNER_DETAILS (OWNERID, DURING_STAY, HOST_DESC) VALUES ((Select INS1.OwnerId from INS1), $9, $10)), INS3 as(INSERT INTO OWNER_LANGUAGE (OWNERID, LANGUAGEID)VALUES((Select INS1.OwnerId from INS1), (select ID from LANGUAGES WHERE NAME = $11 LIMIT 1))) SELECT OwnerId FROM INS1;', [ownerObj[i].name, ownerObj[i].joinedDate, ownerObj[i].reviewsCount, ownerObj[i].isIdentityVerified, ownerObj[i].responseRate, ownerObj[i].responseTime, ownerObj[i].profilePic, ownerObj[i].isSuperHost, ownerObj[i].duringStay, ownerObj[i].hostDescription, ownerObj[i].language])
           .then(res => {
             console.log('res insert i: ', res.rows[0]);
-            //console.log('client.release');
             //client.release();
 
           })
@@ -189,7 +186,6 @@ const bulkInsertOwner = (ownerObj) => {
           })
 
       }
-      //client.release();
 
     })
     .catch(e => {
@@ -207,12 +203,10 @@ const deletMasterData = (languageArray) => {
     .then(client => {
       return client.query(deleteLanguages)
         .then(res => {
-          //console.log('Language deleted. Next, delete response type : ', res.rows[0]);
           return client.query(deleteResponseType)
         })
         .then(res => {
           client.release();
-          //console.log('Client releases : ', res.rows[0]);
         })
         .catch(e => {
           client.release();
@@ -231,7 +225,6 @@ const insertResponseType = (responseTimeArr) => {
     .then(client => {
       return client.query(query)
         .then(res => {
-          //console.log('res insert responseTime : ', res.rows);
           return res.rows;
         })
         .catch(e => {
@@ -251,7 +244,6 @@ const insertLanguages = (languageArray) => {
     .then(client => {
       return client.query(query1)
         .then(res => {
-          //console.log('res insert LANGUAGE : ', res.rows);
           return res.rows;
         })
         .catch(e => {
