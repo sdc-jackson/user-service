@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { User } = require('./schema.js');
+//const { User } = require('./schema.js');
 // require('dotenv').config();
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 const { Pool } = require('pg');
@@ -131,23 +131,23 @@ const insertOwner = (ownerObj) => {
 
 }
 
-const getUserNameAndPhoto = async (userId) => {
-  try {
-    const { name, avatarUrl } = await User.findOne({ userId }, 'name avatarUrl');
-    return { name, avatarUrl };
-  } catch (err) {
-    return null;
-  }
-};
+// const getUserNameAndPhoto = async (userId) => {
+//   try {
+//     const { name, avatarUrl } = await User.findOne({ userId }, 'name avatarUrl');
+//     return { name, avatarUrl };
+//   } catch (err) {
+//     return null;
+//   }
+// };
 
-const getUserSuperhostStatus = async (userId) => {
-  try {
-    const { isSuperhost } = await User.findOne({ userId }, 'isSuperhost');
-    return { isSuperhost };
-  } catch (err) {
-    return null;
-  }
-};
+// const getUserSuperhostStatus = async (userId) => {
+//   try {
+//     const { isSuperhost } = await User.findOne({ userId }, 'isSuperhost');
+//     return { isSuperhost };
+//   } catch (err) {
+//     return null;
+//   }
+// };
 
 //SDC
 //tested using Postman
@@ -155,59 +155,59 @@ const getUserSuperhostStatus = async (userId) => {
 //http://localhost:5007/users/insertUser
 const insertUserInfo = (userInfoObj) => {
   //check user exists, if not, insert
-  const userDetails = new User(userInfoObj);
+  // const userDetails = new User(userInfoObj);
 
-  return User.findOne({ name: userInfoObj.name })
-    .then(result => {
-      if (!result) {
-        return userDetails.save();
-      } else {
-        return ('Username already exists, not added');
-      }
+  // return User.findOne({ name: userInfoObj.name })
+  //   .then(result => {
+  //     if (!result) {
+  //       return userDetails.save();
+  //     } else {
+  //       return ('Username already exists, not added');
+  //     }
 
-    })
-    .catch(err => console.log(err))
+  //   })
+  //   .catch(err => console.log(err))
 
 };
 
 //update UserInfo based on userID
 const updateUserInfo = (userInfoObj) => {
 
-  return User.updateMany({ userId: userInfoObj.userId },
-    {
-      name: userInfoObj.name,
-      joinDate: userInfoObj.joinDate,
-      bio: userInfoObj.bio,
-      avatarUrl: userInfoObj.avatarUrl,
-      isSuperhost: userInfoObj.isSuperhost,
-      identityVerified: userInfoObj.identityVerified,
-      languages: userInfoObj.languages,
-      responseRate: userInfoObj.responseRate,
-      responseTime: userInfoObj.responseTime
-    })
-    .then(results => {
-      return (results);
-    })
-    .catch(err => console.log(err))
+  // return User.updateMany({ userId: userInfoObj.userId },
+  //   {
+  //     name: userInfoObj.name,
+  //     joinDate: userInfoObj.joinDate,
+  //     bio: userInfoObj.bio,
+  //     avatarUrl: userInfoObj.avatarUrl,
+  //     isSuperhost: userInfoObj.isSuperhost,
+  //     identityVerified: userInfoObj.identityVerified,
+  //     languages: userInfoObj.languages,
+  //     responseRate: userInfoObj.responseRate,
+  //     responseTime: userInfoObj.responseTime
+  //   })
+  //   .then(results => {
+  //     return (results);
+  //   })
+  //   .catch(err => console.log(err))
 
 }
 
 //delete user based on userid
 const deleteUserInfo = (userid) => {
-  return User.deleteMany({ userId: userid })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    })
+  // return User.deleteMany({ userId: userid })
+  //   .then(result => {
+  //     return result;
+  //   })
+  //   .catch(err => {
+  //     return err;
+  //   })
 }
 
 module.exports = {
   generatePhoto,
   getUserById,
-  getUserNameAndPhoto,
-  getUserSuperhostStatus,
+  // getUserNameAndPhoto,
+  // getUserSuperhostStatus,
   insertUserInfo,
   updateUserInfo,
   deleteUserInfo,
