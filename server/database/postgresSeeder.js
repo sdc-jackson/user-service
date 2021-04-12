@@ -178,10 +178,10 @@ const generateRandomDates = async (start) => {
 }
 
 
-const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
+const loadBulkDataByOwners = (batchSize, ownerSeqId, writer, encoding, callback) => {
 
   let i = batchSize;
-  let sequenceId = 0;
+  let sequenceId = ownerSeqId;
   const writeToCSV = () => {
     let bufferAvailable = true; //highWaterMark not reached. If it reaches that mark, it stops reading from the source.
 
@@ -218,10 +218,10 @@ const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
 }
 
 //in use
-const loadBulkDataByHostDetails = (batchSize, writer, encoding, callback) => {
+const loadBulkDataByHostDetails = (batchSize, ownerSeqId, writer, encoding, callback) => {
 
   let i = batchSize;
-  let sequenceId = 0;
+  let sequenceId = ownerSeqId;
   const writeToCSV = async () => {
     let bufferAvailable = true; //highWaterMark not reached. If it reaches that mark, it stops reading from the source.
 
@@ -250,10 +250,10 @@ const loadBulkDataByHostDetails = (batchSize, writer, encoding, callback) => {
 
 }
 
-const loadBulkDataByLanguage = (batchSize, writer, encoding, callback) => {
+const loadBulkDataByLanguage = (batchSize, ownerSeqId, writer, encoding, callback) => {
 
   let i = batchSize;
-  let sequenceId = 0;
+  let sequenceId = ownerSeqId;
   const writeToCSV = async () => {
     let bufferAvailable = true; //highWaterMark not reached. If it reaches that mark, it stops reading from the source.
 
@@ -283,10 +283,10 @@ const loadBulkDataByLanguage = (batchSize, writer, encoding, callback) => {
 
 }
 
-const loadBulkDataByRooms = (batchSize, writer, encoding, callback) => {
+const loadBulkDataByRooms = (batchSize, ownerSeqId, writer, encoding, callback) => {
 
   let i = batchSize;
-  let sequenceId = 0;
+  let sequenceId = ownerSeqId;
   const writeToCSV = async () => {
     let bufferAvailable = true; //highWaterMark not reached. If it reaches that mark, it stops reading from the source.
 
@@ -317,7 +317,7 @@ const loadBulkDataByRooms = (batchSize, writer, encoding, callback) => {
 }
 
 //in use
-const createcsvFileByObject = (recordCount, filename, object, header, start) => {
+const createcsvFileByObject = (recordCount, ownerSeqId, filename, object, header, start) => {
 
   return new Promise((resolve, reject) => {
     const writeOwnerInfo = fs.createWriteStream(filename);
@@ -326,28 +326,28 @@ const createcsvFileByObject = (recordCount, filename, object, header, start) => 
     console.log('object: ', object);
 
     if (object === 'Owners') {
-      loadBulkDataByOwners(recordCount, writeOwnerInfo, 'utf-8', () => {
+      loadBulkDataByOwners(recordCount, ownerSeqId, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
         writeOwnerInfo.end();
         resolve();
       });
 
     } else if (object === 'HostDetails') {
-      loadBulkDataByHostDetails(recordCount, writeOwnerInfo, 'utf-8', () => {
+      loadBulkDataByHostDetails(recordCount, ownerSeqId, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
         writeOwnerInfo.end();
         resolve();
       });
 
     } else if (object === 'Language') {
-      loadBulkDataByLanguage(recordCount, writeOwnerInfo, 'utf-8', () => {
+      loadBulkDataByLanguage(recordCount, ownerSeqId, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
         writeOwnerInfo.end();
         resolve();
       });
 
     } else if (object === 'Rooms') {
-      loadBulkDataByRooms(recordCount, writeOwnerInfo, 'utf-8', () => {
+      loadBulkDataByRooms(recordCount, ownerSeqId, writeOwnerInfo, 'utf-8', () => {
         console.log('File created : ', filename);
         writeOwnerInfo.end();
         resolve();
@@ -398,10 +398,36 @@ const importCSVtoDBTables = () => {
 
 }
 
+const importCSVtoDBTables2 = () => {
+
+  return dbmodel.importCSVtoDB(filename5, 'owners')
+    .then(result => {
+      console.log('SECOND SET FILES .. 5.');
+      return dbmodel.importCSVtoDB(filename6, 'owner_details');
+    })
+    .then(result => {
+      console.log('6.');
+      return dbmodel.importCSVtoDB(filename7, 'owner_language');
+    })
+    .then(result => {
+      console.log('7.');
+      return dbmodel.importCSVtoDB(filename8, 'rooms');
+    })
+    .catch(err => console.log('error during file import to DB : ', err))
+
+}
+
+
 const filename1 = 'csvFiles/owners.csv';
 const filename2 = 'csvFiles/ownerDetails.csv';
 const filename3 = 'csvFiles/ownerLanguage.csv';
 const filename4 = 'csvFiles/ownerRooms.csv';
+
+const filename5 = 'csvFiles/owners1.csv';
+const filename6 = 'csvFiles/ownerDetails1.csv';
+const filename7 = 'csvFiles/ownerLanguage1.csv';
+const filename8 = 'csvFiles/ownerRooms1.csv';
+
 
 const fileCreationFlow = (sampleSize) => {
   const csvHeader1 = 'userId,joinedDate,reviewsCount,identityVerified,responseRate,responseTime,profilePic,isSuperHost,name,userId\n';
@@ -411,20 +437,38 @@ const fileCreationFlow = (sampleSize) => {
   console.log('File creation started ...');
   const start = Date.now();
   console.log('starting timer...  : ', start);
+  let ownerSeqId = 0;
+  let ownerSeqId1 = 5000000;
 
-  return createcsvFileByObject(sampleSize, filename1, 'Owners', csvHeader1, start)
+  return createcsvFileByObject(sampleSize, ownerSeqId, filename1, 'Owners', csvHeader1, start)
     .then(result => {
-      return createcsvFileByObject(sampleSize, filename2, 'HostDetails', csvHeader2, start);
+      return createcsvFileByObject(sampleSize, ownerSeqId, filename2, 'HostDetails', csvHeader2, start);
     })
     .then(result => {
-      return createcsvFileByObject(sampleSize, filename3, 'Language', csvHeader3, start);
+      return createcsvFileByObject(sampleSize, ownerSeqId, filename3, 'Language', csvHeader3, start);
     })
     .then(result => {
-      return createcsvFileByObject(sampleSize, filename4, 'Rooms', csvHeader4, start);
+      return createcsvFileByObject(sampleSize, ownerSeqId, filename4, 'Rooms', csvHeader4, start);
     })
     .then(result => {
       return importCSVtoDBTables();
     })
+    .then(result => {
+      return createcsvFileByObject(sampleSize, ownerSeqId1, filename5, 'Owners', csvHeader1, start);
+    })
+    .then(result => {
+      return createcsvFileByObject(sampleSize, ownerSeqId1, filename6, 'HostDetails', csvHeader2, start);
+    })
+    .then(result => {
+      return createcsvFileByObject(sampleSize, ownerSeqId1, filename7, 'Language', csvHeader3, start);
+    })
+    .then(result => {
+      return createcsvFileByObject(sampleSize, ownerSeqId1, filename8, 'Rooms', csvHeader4, start);
+    })
+    .then(result => {
+      return importCSVtoDBTables2();
+    })
+
     .then(final => {
       console.log('6...');
       var d = new Date();
@@ -438,7 +482,7 @@ const fileCreationFlow = (sampleSize) => {
 
 //generateAWSUrls();
 loadMasterData()//loads master data : languages, response types, aws urls
-  .then(result => fileCreationFlow(10000000))
+  .then(result => fileCreationFlow(5000000))
   .catch(err => console.log(err));
 
 
