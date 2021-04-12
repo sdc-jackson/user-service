@@ -48,8 +48,13 @@ const loadMasterData = () => {
       console.log('responseTypeIds: ', responseTypeIds);
     })
     .then(result => {
-      return generateAWSUrls();
+      console.log('random dates generation started..');
+      return generateRandomDates();
     })
+    // .then(result => {
+    //   console.log('AWS urls generation');
+    //   return generateAWSUrls();
+    // })
     .catch(err => console.log(err));
 
 }
@@ -162,6 +167,17 @@ const loadBulkDataByObject = (batchSize, writer, objectName, encoding, callback)
 
 }
 
+let randomDates = [];
+const generateRandomDates = async (start) => {
+  for (let i = 0; i < 100; i++) {
+    randomDates.push(new Date(faker.date.past()).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }));
+  }
+  //console.log(randomDates);
+  return true;
+
+}
+
+
 const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
 
   let i = batchSize;
@@ -177,13 +193,13 @@ const loadBulkDataByOwners = (batchSize, writer, encoding, callback) => {
       const owner = {
         ownerId: sequenceId,
         name: faker.name.firstName(),
-        joinedDate: faker.date.past(), //'2020-04-23',//
+        joinedDate: faker.random.arrayElement(randomDates), //new Date(faker.date.past()).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }),//;faker.date.past(), //'2020-04-23',//
         reviewsCount: faker.random.number(),
         isIdentityVerified: faker.random.boolean(),
         isSuperHost: faker.random.boolean(),
         responseRate: faker.random.number({ min: 93, max: 100 }),
         responseTime: faker.random.arrayElement(responseTypeIds),
-        profilePic: faker.image.imageUrl()//S3Url//faker.random.arrayElement(awsUrls)
+        profilePic: faker.image.imageUrl() //faker.random.arrayElement(awsUrls)//faker.image.imageUrl()//S3Url//
       }
       ownerDetailsRow = `${owner.ownerId}, ${owner.joinedDate}, ${owner.reviewsCount}, ${owner.isIdentityVerified}, ${owner.responseRate}, ${owner.responseTime}, ${owner.profilePic}, ${owner.isSuperHost},  ${owner.name}, ${owner.ownerId}\n`;
 
@@ -300,7 +316,7 @@ const loadBulkDataByRooms = (batchSize, writer, encoding, callback) => {
 
 }
 
-
+//in use
 const createcsvFileByObject = (recordCount, filename, object, header, start) => {
 
   return new Promise((resolve, reject) => {
