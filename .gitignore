@@ -31,3 +31,12 @@ public/
 # New Relic files
 newrelic.js
 newrelic_agent.log
+
+#ssh to aws files
+login.sh
+*.pem
+
+loginNewServer.sh
+loginProxy.sh
+DockerFile.js
+docker-compose.yml

@@ -2,7 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const postgres = require('./database/postgresql');
+const redis = require('redis');
 require('newrelic');
+const redisClient = redis.createClient(6379);
+
+redisClient.on("error", (error) => {
+  console.error(error);
+});
 
 const { getUserById, getUserNameAndPhoto, getUserSuperhostStatus, insertUserInfo, updateUserInfo, deleteUserInfo, updateOwnerDetails, updateOwnerInfo, insertOwner } = require('./database/helpers');
 var bodyParser = require("body-parser");
@@ -27,13 +33,42 @@ app.use(cors());
 app.get('/users/:userId', (req, res) => {
 
   console.log('req.params.userId: ', req.params.userId);
-  getUserById(req.params.userId)
-    .then(userDetails => {
-      res.status(200).send(userDetails);
-    })
-    .catch(err => {
-      res.status(500).send(err);
-    });
+  let userID = req.params.userId;
+
+  // getUserById(userID)
+  //   .then(userDetails => {
+  //     res.status(200).send(userDetails);
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send(err);
+  //   });
+
+  redisClient.get(userID, async (err, userInfo) => {
+    console.log('userInfo cache: ', userInfo);
+    if (userInfo) {
+      console.log('userInfo cache2: ', userInfo);
+      return res.status(200).send(userInfo);
+    } else {
+      console.log('userInfo cache3: ');
+      getUserById(userID)
+        .then(userDetails => {
+          console.log('userInfo cache4: ', userDetails);
+          userInfo = userDetails;
+          //save record in cache
+          console.log('userInfo cache5: ', userInfo);
+          redisClient.setex(userID, 1440, JSON.stringify(userInfo));
+          //res.status(200).send(userDetails);
+          return res.status(200).send(userInfo);
+
+        })
+        .catch(err => {
+          res.status(500).send(err);
+        });
+    }
+  })
+
+
+
 
 });
 

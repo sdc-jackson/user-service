@@ -55,7 +55,7 @@ const getUserById = (userId) => {
       if (error) {
         reject(error);
       }
-      //console.log('results.rows : ', results[0].rows);
+      console.log('results.rows : ', results[0].rows);
       let langArr = results[0].rows.map(elem => elem.name);
 
       //console.log('results.rows : ', results[1].rows);
